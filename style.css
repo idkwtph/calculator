@@ -1,0 +1,395 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-weight: normal;
+  position: relative;
+  transition: 1000ms;
+}
+
+:root {
+  --theme-button-z-index: 2;
+}
+  
+[colour-scheme="dark"] {
+  --calculator-gradient-colour-one: #17181a;
+  --calculator-gradient-colour-two: #17181a;
+  --current-operation-colour: #FFFFFF;
+  --previous-operation-number-colour: #818181;
+  --previous-operation-operation-colour: #109DFF;
+  --number-text-colour: #29A8FF;
+  --number-button-colour: #303136;
+  --operation-text-colour: #339DFF;
+  --operation-button-colour: #005DB2;
+  --equal-button-color: linear-gradient(to bottom left, #19acff, #b2daff);
+  --text-editing-button-colour: #29A8FF;
+  --clear-button-text-colour: rgb(95, 128, 156);
+  --delete-button-text-colour: rgb(95, 128, 156);    
+  --button-normal-shadow: none;
+  --button-hover-shadow: 5px 5px 16px 8px rgba(95, 95, 95, 0.56);
+  --button-active-shadow: inset 5px 5px 16px 8px rgba(95, 95, 95, 0.56);
+  --button-border: none;
+}
+
+[colour-scheme="light"] {
+  --calculator-gradient-colour-one: white;
+  --calculator-gradient-colour-two: rgba(255, 255, 255, 0.01);
+  --current-operation-colour: background: #424242;
+  --previous-operation-number-colour: #818181;
+  --previous-operation-operation-colour: #109DFF;
+  --number-text-colour: white;
+  --number-button-colour: rgba(184, 184, 184, 0.15);
+  --operation-text-colour: rgb(102, 148, 207);
+  --operation-button-colour: linear-gradient(
+    to bottom left,
+    #add8ff,
+    rgba(173, 216, 255, 0.5)
+    );
+    --equal-button-color: linear-gradient(to bottom left, #19acff, #b2daff);
+    --text-editing-button-colour: rgba(184, 184, 184, 0.15);
+    --clear-button-text-colour: #fff;
+    --delete-button-text-colour: #fff;
+    --button-normal-shadow: inset 5px 5px 16px -8px rgba(255, 255, 255, 0.56);
+    --button-hover-shadow: 5px 5px 16px 8px rgba(255, 255, 255, 0.56);
+    --button-active-shadow: inset 5px 5px 16px 8px rgba(255, 255, 255, 0.56);
+    --button-border: 1px solid white;
+  }
+
+body {
+  opacity: 0;
+  display: flex;
+  margin: auto;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  flex-direction: column;
+  background: #a0d7ff;
+  overflow: hidden;
+  transition: 1000ms;
+  overflow-y: auto;
+}
+
+.display {
+  position: relative;
+  margin: auto;
+  padding: auto;
+  opacity: 1;
+  border-radius: 30px;
+  height: calc(max-content + 100vw);
+  width: 30vw;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex-direction: column;
+  word-wrap: break-word;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+.display-container {
+  display: block;
+  position: relative;
+}
+
+.calculator-container {
+  transition: 1000ms;
+  position: relative;
+  margin: auto;
+  user-select: none;
+  opacity: 0.75;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.calculator {
+  transition: 1000ms;
+  position: relative;
+  display: flex;
+  margin: auto;
+  background: linear-gradient(
+    167.27deg,
+    var(--calculator-gradient-colour-one),
+    var(--calculator-gradient-colour-two)
+  );
+  transition: background 1000ms ease;
+  backdrop-filter: blur(102px);
+  border-radius: 39px;
+  height: calc(max-content + 100vw);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  z-index: 10;
+}
+  
+.buttons {
+  margin: auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 1vw;
+  opacity: 1;
+}
+
+.buttons button {
+  position: relative;
+  cursor: pointer;
+  opacity: 1;
+  font-family: "Poppins";
+  display: grid;
+  height: 4vw;
+  width: auto;
+  font-size: calc(3vw);
+  text-align: center;
+  padding-bottom: auto;
+  backdrop-filter: blur(102px);
+  border-radius: 12px;
+  border: var(--button-border);
+  box-shadow: var(--button-normal-shadow);
+  transition: box-shadow 200ms ease-in-out;
+}
+
+.buttons button:hover {
+  box-shadow: var(--button-hover-shadow);
+  transition: box-shadow 200ms ease-in-out;
+}
+
+.buttons button:active {
+  box-shadow: var(--button-active-shadow);
+  transition: box-shadow 200ms ease-in-out;
+}
+
+.span-two {
+  grid-column: span 2;
+}
+
+.span-four {
+  grid-column: span 4;
+}
+
+.number,
+.decimal {
+  color: var(--number-text-colour);
+  background: var(--number-button-colour);
+}
+
+.clear {
+  background: var(--text-editing-button-colour);
+  color: var(--clear-button-text-colour);
+}
+
+.delete {
+  background: var(--text-editing-button-colour);
+  color: var(--delete-button-text-colour);
+}
+
+.operation {
+  color: var(--operation-text-colour);
+  background: var(--operation-button-colour);
+}
+
+.change-sign {
+    color: var(--operation-text-colour);
+    background: var(--operation-button-colour);
+}
+
+.equals {
+  color: white;
+  background: var(--equal-button-color);
+}
+
+.previous-operation {
+  position: relative;
+  margin: auto;
+  opacity: 1;
+  display: flex;
+  font-size: 2vw;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  top: 3vw;
+  margin-bottom: 8vw;
+}
+
+.current-operation {
+  opacity: 1;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  color: var(--current-operation-colour);
+  font-size: 3vw;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 0.1em;
+}
+
+.previous-operation .display-number {
+  mix-blend-mode: normal;
+  color: var(--previous-operation-number-colour);
+}
+
+.previous-operation .display-operation {
+  mix-blend-mode: normal;
+  color: var(--previous-operation-operation-colour);
+}
+
+.background {
+  display: flex;
+  position: absolute;
+}
+
+.ellipse {
+  position: relative;
+  width: 45.520833333333336vw;
+  height: 45.520833333333336vw;
+  border: 1px solid black;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  background: #109dff;
+}
+
+.buttons-container {
+  display: block;
+  position: relative;
+}
+
+.mode-tog {
+  background-color: black;
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  z-index: 12;
+  transition: 1000ms;
+  border-radius: 50%;
+  margin-bottom: 2vw;
+}
+
+.mode-tog.active {
+  background-color: white;
+  transition: 1000ms;
+}
+
+.container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 50px;
+  top: 50px;
+  width: 20px;
+  height: 20px;
+}
+
+.dark-mode {
+  position: relative;
+  transform: scale(0);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 350vw;
+  height: 350vw;
+  border-radius: 50%;
+  background-color: #161616;
+  transition: 1000ms ease-in-out;
+  display: flex;
+  flex: 0 0 auto;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.dark-mode.active {
+  transform: scale(1);
+  transition: 1000ms ease-in-out;
+}
+
+h1 {
+  display: flex;
+  color: white;
+  mix-blend-mode: difference;
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%);
+  justify-content: flex-start;
+  align-items: flex-end;
+  font-size: 2vw;
+  z-index: 2;
+}
+
+@media (max-width: 800px) {
+  .mode-tog {
+    width: 15px;
+    height: 15px;
+  }
+
+  h1 {
+    font-size: 4vw;
+  }
+}
+
+@media (max-width: 660px) {
+  .calculator {
+    height: calc(max-content + 80vw);
+  }
+  
+  button {
+    height: 5vw;
+  }
+  
+  .display {
+    height: calc(max-content + 100vw);
+  }
+
+  .dark-mode {
+    width: 400vh;
+    height: 350vh;
+  }
+}
+
+@media (max-width: 560px) {
+  .calculator {
+    height: calc(max-content + 90vw);
+  }
+  
+  button {
+    height: 6vw;
+    padding: auto;
+  }
+  
+  .display {
+    height: calc(max-content + 100vw);
+    margin-bottom: 1vw;
+  }
+  
+  .previous-operation {
+    font-size: 3vw;
+  }
+  
+  .current-operation {
+    font-size: 6vw;
+  }
+
+  .dark-mode {
+    width: 400vh;
+    height: 350vh;
+  }
+}
